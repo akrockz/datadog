@@ -1,0 +1,32 @@
+---
+#This config is a base alerts for all RDS instances
+team: ccoe
+
+alerts:
+- multi: true
+  name: CRITICAL={{applname}}=CPUUtilization-RDS-{{dbinstanceidentifier}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:aws.rds.cpuutilization{env:prod} by {applname,dbinstanceidentifier} > 80
+  type: metric alert
+
+- multi: true
+  name: CRITICAL={{applname}}=FreeStorageSpace-RDS-{{dbinstanceidentifier}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:aws.rds.free_storage_space{env:prod} by {applname,dbinstanceidentifier} < 2000000000
+  type: metric alert
+
+- multi: true
+  name: CRITICAL={{applname}}=FreeableMemory-RDS-{{dbinstanceidentifier}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:aws.rds.freeable_memory{env:prod} by {applname,dbinstanceidentifier} < 200000000
+  type: metric alert
+
+- multi: true
+  name: CRITICAL={{applname}}=DiskQueueDepth-RDS-{{dbinstanceidentifier}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:aws.rds.disk_queue_depth{env:prod} by {applname,dbinstanceidentifier} > 1
+  type: metric alert
