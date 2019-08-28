@@ -1,0 +1,25 @@
+---
+#This config is a base alerts for all instances
+team: ccoe
+
+alerts:
+- multi: true
+  name: CRITICAL={{applname}}=CPUUtilization-{{instance_id}}
+  tags: CCoE, All
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:aws.ec2.cpuutilization{env:prod} by {applname,instance_id} > 80
+  type: metric alert
+
+- multi: true
+  name: CRITICAL={{applname}}=MemoryUtilization-{{instance_id}}
+  tags: CCoE, All
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:system.linux.MemoryUtilization{env:prod} by {applname,instance_id} > 95
+  type: metric alert  
+
+- multi: true
+  name: CRITICAL={{applname}}=DiskSpaceUtilization-{{instance_id}}
+  tags: CCoE, All
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:system.linux.DiskSpaceUtilization{env:prod} by {applname,instance_id} > 90
+  type: metric alert
