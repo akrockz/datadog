@@ -1,0 +1,11 @@
+---
+#This config is a base alerts for all EBS
+team: ccoe
+
+alerts:
+- multi: true
+  name: CRITICAL={{applname}}=VolumeQueueLength-EBS-{{volume-id}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:aws.ebs.volume_queue_length{env:prod} by {applname,volume-id} > 1
+  type: metric alert
