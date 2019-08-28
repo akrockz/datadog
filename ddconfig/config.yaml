@@ -1,0 +1,16 @@
+---
+datadog:
+  api_key: 68b1007afe9860993111f46f8c6dc0b8
+  app_key: 305f292da54bd067ead78605e39cd68ef3d25a4f
+
+teams:
+  ccoe:
+    notifications:
+      CRITICAL: '@stallonerocks@gmail.com'
+
+rule_files:
+- ec2.yaml
+- rds.yaml
+- elb.yaml
+- asg.yaml
+- ebs.yaml
