@@ -1,0 +1,39 @@
+---
+#This config is a base alerts for all ELB
+team: ccoe
+
+alerts:
+- multi: true
+  name: CRITICAL={{applname}}=RequestCount-ELB-{{loadbalancername}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: sum(last_15m):sum:aws.elb.request_count{env:prod} by {applname,loadbalancername}.as_count() > 30000
+  type: metric alert
+
+- multi: true
+  name: CRITICAL={{applname}}=TargetResponseTime-ELB-{{loadbalancername}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: avg(last_15m):avg:aws.elb.target_response_time.average{env:prod} by {applname,loadbalancername} > 7
+  type: metric alert
+
+- multi: true
+  name: CRITICAL={{applname}}=HTTPCodeTarget4XX-ELB-{{loadbalancername}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: sum(last_15m):sum:aws.elb.httpcode_target_4xx.average{env:prod} by {applname,loadbalancername}.as_count() > 250
+  type: metric alert
+
+- multi: true
+  name: CRITICAL={{applname}}=HTTPCodeTarget5XX-ELB-{{loadbalancername}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: sum(last_15m):sum:aws.elb.httpcode_target_5xx.average{env:prod} by {applname,loadbalancername}.as_count() > 500
+  type: metric alert
+
+- multi: true
+  name: CRITICAL={{applname}}=UnHealthlyHostCount-ELB-{{loadbalancername}}
+  tags: CCoE, All  
+  options: {notify_no_data: false}
+  query: sum(last_30m):sum:aws.elb.un_healthy_host_count.average{env:prod} by {applname,loadbalancername} > 0
+  type: metric alert
