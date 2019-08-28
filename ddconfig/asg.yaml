@@ -1,0 +1,11 @@
+---
+#This config is a base alerts for all ASG
+team: ccoe
+
+alerts:
+- multi: true
+  name: CRITICAL={{applname}}=GroupTerminatingInstances-ASG-{{autoscalinggroupname}}
+  tags: CCoE, All
+  options: {notify_no_data: false}
+  query: sum(last_1h):sum:aws.autoscaling.group_terminating_instances{env:prod} by {applname,autoscalinggroupname} > 0
+  type: metric alert
